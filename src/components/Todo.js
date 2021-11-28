@@ -1,46 +1,21 @@
-import React, { useState } from "react";
-import TodoForm from "./TodoForm";
-import { RiCloseCircleFill } from "react-icons/ri";
-import { TiEdit } from "react-icons/ti";
+import React from "react";
+import cx from "classnames";
 
-function Todo({ todos, completeTodo, removeTodo, updateTodo }) {
-  const [edit, setEdit] = useState({
-    id: null,
-    value: "",
-  });
-
-  const submitUpdate = (value) => {
-    updateTodo(edit.id, value);
-    setEdit({
-      id: null,
-      value: "",
-    });
-  };
-
-  if (edit.id) {
-    return <TodoForm edit={edit} onSubmit={submitUpdate} />; 
-  }
-
-  return todos.map((todo, index) => (
-    <div
-      className={todo.isComplete ? "todo-row complete" : "todo-row"}
-      key={index}
+const Todo = ({ todo }) => (
+  <li
+    className="todo-item"
+    onClick={() => {} /** dispatches action to toggle todo */}
+  >
+    {todo && todo.completed ? "👌" : "👋"}{" "}
+    <span
+      className={cx(
+        "todo-item__text",
+        todo && todo.completed && "todo-item__text--completed"
+      )}
     >
-      <div key={todo.id} onClick={() => completeTodo(todo.id)}>
-        {todo.text}
-      </div>
-      <div className="icons">
-        <TiEdit
-          onClick={() => setEdit({ id: todo.id, value: todo.text })}
-          className="edit-icon"
-        />
-        <RiCloseCircleFill
-          onClick={() => removeTodo(todo.id)}
-          className="delete-icon"
-        />
-      </div>
-    </div>
-  ));
-}
+      {todo.content}
+    </span>
+  </li>
+);
 
 export default Todo;
